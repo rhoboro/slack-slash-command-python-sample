@@ -3,6 +3,8 @@ import os
 import time
 from urllib.request import Request, urlopen
 
+SECONDS_DELAY = 10
+
 
 def mine_response(request):
     data = request.get_json()
@@ -15,7 +17,11 @@ def mine_response(request):
         "response_type": "in_channel",
         "text": f"Completed: {text}",
     }
-    time.sleep(10)
+
+    # Execute some tasks...
+    time.sleep(SECONDS_DELAY)
+
+    # Send Slack Message
     req = Request(
         response_url,
         data=json.dumps(message).encode(),
@@ -24,4 +30,5 @@ def mine_response(request):
     )
     with urlopen(req) as res:
         print(res.read().decode())
+
     return "ok"
